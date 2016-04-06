@@ -1,6 +1,6 @@
 package com.perfonomy.yafsm;
 
-import com.perfonomy.yafsm.exceptions.UndefinedTransitionException;
+import com.perfonomy.yafsm.exceptions.UnMappedEventException;
 
 public class StateMachine {
 
@@ -10,7 +10,7 @@ public class StateMachine {
         currentState = startState;
     }
 
-    public State apply(Event event) throws UndefinedTransitionException {
+    public State apply(Event event) throws UnMappedEventException {
         currentState = currentState.on(event);
         return currentState;
     }

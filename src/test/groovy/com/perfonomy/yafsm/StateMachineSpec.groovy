@@ -1,6 +1,6 @@
 package com.perfonomy.yafsm
 
-import com.perfonomy.yafsm.exceptions.UndefinedTransitionException
+import com.perfonomy.yafsm.exceptions.UnMappedEventException
 import spock.lang.Specification
 
 class StateMachineSpec extends Specification {
@@ -25,8 +25,8 @@ class StateMachineSpec extends Specification {
             stateMachine.currentState.equals(paymentProcessingState)
         when: 'An unknown event is applied'
             stateMachine.apply(new Event('RandomEvent'))
-        then: 'An undefined transition exception should be thrown'
-            thrown(UndefinedTransitionException)
+        then: 'An unmapped event exception should be thrown'
+            thrown(UnMappedEventException)
         when: 'When a payment processed is applied'
             newState = stateMachine.apply(new Event('PaymentProcessed'))
         then: 'New state should be CSR Review'
@@ -39,7 +39,7 @@ class StateMachineSpec extends Specification {
             stateMachine.currentState.equals(goodsDispatchedState)
         when: 'Any other event is applies'
             stateMachine.apply(new Event('OrderPlaced'))
-        then: 'An undefined transition exception should be throw as no other transitions are available'
-            thrown(UndefinedTransitionException)
+        then: 'An unmapped event exception should be thrown as no other transitions are possible'
+            thrown(UnMappedEventException)
     }
 }

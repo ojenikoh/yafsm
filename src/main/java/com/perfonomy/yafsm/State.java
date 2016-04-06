@@ -1,6 +1,6 @@
 package com.perfonomy.yafsm;
 
-import com.perfonomy.yafsm.exceptions.UndefinedTransitionException;
+import com.perfonomy.yafsm.exceptions.UnMappedEventException;
 
 import java.util.Optional;
 import java.util.Set;
@@ -15,14 +15,22 @@ public class State {
         this.transitions = transitions;
     }
 
-    public State on(final Event event) throws UndefinedTransitionException {
+    public State on(final Event event) throws UnMappedEventException {
         Optional<Transition> transition = transitions.stream().filter(t -> t.supports(event)).findFirst();
 
         if (transition.isPresent()) {
             return transition.get().getNextState();
         }
 
-        throw new UndefinedTransitionException(String.format("No State transition for event: %s", event.getName()));
+        throw new UnMappedEventException(String.format("No State transition for event: %s", event.getName()));
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getNumberOfTransitions() {
+        return transitions.size();
     }
 
     @Override
